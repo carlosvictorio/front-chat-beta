@@ -39,7 +39,7 @@ export default function Chat() {
     setContacts(contactsRes);
 
     projectsRes.forEach((group) => {
-      socket.emit("joinGroup", { projectId: group.id });
+      socket.emit("joinGroup", { projectId: String(group.id) });
     });
 
     const privateChatUserIds = contactsRes.map((c) => c.id);
@@ -77,12 +77,22 @@ export default function Chat() {
     <div className="flex h-screen">
       <GroupsList
         groups={groups}
-        onSelectGroup={(g) => setSelectedChat({ ...g, type: "group" })}
+        onSelectGroup={(g) =>
+          setSelectedChat({
+            ...g,
+            type: "group",
+            senderMemberProjectId: g.senderMemberProjectId,
+          })
+        }
       />
       <ChatWindow
         socket={socket}
         selectedChat={selectedChat}
-        currentUserId={currentUserId}
+        currentUserId={
+          selectedChat?.type === "group"
+            ? selectedChat.senderMemberProjectId
+            : currentUserId
+        }
       />
       <ContactsList
         contacts={contacts}
