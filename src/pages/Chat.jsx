@@ -45,7 +45,7 @@ export default function Chat() {
     const privateChatUserIds = contactsRes.map((c) => c.id);
     socket.emit("registerPrivateRooms", {
       UserId: currentUserId,
-      privateChatUserIds,
+      privateChatUserIds: privateChatUserIds,
     });
   };
 

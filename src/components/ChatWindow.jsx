@@ -35,12 +35,12 @@ export default function ChatWindow({ socket, selectedChat, currentUserId }) {
       socket.emit("sendGroupMessage", {
         projectId: selectedChat.id,
         content: newMessage,
-        sender_member_project_id: currentUserId, // <- novo campo aqui
+        senderMemberProjectId: currentUserId, // <- novo campo aqui
       });
     } else {
       socket.emit("sendPrivateMessage", {
-        sender_user_id: currentUserId,
-        receiver_user_id: selectedChat.id,
+        senderUserId: currentUserId,
+        receiverUserId: selectedChat.id,
         content: newMessage,
       });
     }
@@ -55,7 +55,7 @@ export default function ChatWindow({ socket, selectedChat, currentUserId }) {
           <div
             key={idx}
             className={`max-w-md p-2 rounded ${
-              msg.sender_user_id === currentUserId ||
+              msg.senderUserId === currentUserId ||
               msg.senderMemberProjectId === currentUserId
                 ? "bg-blue-500 text-white ml-auto"
                 : "bg-gray-300 text-black mr-auto"
